@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FilesUploader</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" mb-0 h1>FilesUploader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <button class="btn btn-outline-dark" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-3" style="border:2px solid #1b1b1b; width: 60%;">
+        <div class="col-md-12 text-center">
+            <label for="formFile" class="form-label mt-2"><h4>Browse a File From Directory to Upload</h4></label>
+        </div>
+        <div class="col-md-12 text-center">
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <input class="form-control" type="file" id="formFile" name="file">
+                <button class="btn btn-primary my-3" type="submit" onclick="myFunction()">Upload</button>
+                <div class="container-fluid" style="min-height:100%">
+                    {% with messages = get_flashed_messages() %} 
+                      {% if messages %} 
+                        {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong> {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div> 
+                        {% endfor %} 
+                      {% endif %} 
+                    {% endwith %}
+                  </div>
+            </form>
+        </div>
+    </div>
+    <div class="container mt-3" style="border:1px solid #3b3535; width: 80%">
+        <div class="col-md-12 text-center">
+            <h4>Files Database</h4>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Filename</th>
+                <th scope="col">Filesize</th>
+                <th scope="col">DateTime</th>
+                <th scope="col">FileURL</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <th scope="row">{{record.id}}</th>
+                    <td>{{record.filename}}</td>
+                    <td>{{record.fileSize}}</td>
+                    <td>{{record.dateTime}}</td>
+                    <td>@{{record.url}}</td>
+                  </tr>
+                {% endfor %}
+              
+            </tbody>
+          </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script>
+        function myFunction() {
+            if(document.getElementById("formFile").value.length == 0)
+            {
+                alert("Please Select a File")
+            }
+        }
+    </script>
+</body>
+
+</html>
